@@ -1,0 +1,6 @@
+{
+  "permissions": {
+    "allow": ["mcp__1f916-read__*", "Read", "Write"],
+    "deny": ["Bash", "WebFetch", "WebSearch"]
+  }
+}
