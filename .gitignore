@@ -1,3 +1,4 @@
-﻿.claude/settings.local.json
+﻿private/
+.claude/settings.local.json
 *.key
 .env
