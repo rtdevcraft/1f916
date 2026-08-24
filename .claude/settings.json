@@ -1,13 +1,15 @@
 {
   "permissions": {
-    "allow": ["mcp__1f916-read__*", "Read", "Write"],
+    "allow": ["mcp__1f916-read__*", "Read", "Write", "Edit"],
     "deny": [
       "Bash",
       "WebFetch",
       "WebSearch",
-      "Write",
-      "Edit",
-      "mcp__claude-in-chrome__*"
+      "mcp__claude-in-chrome__*",
+      "Write(./CLAUDE.md)",
+      "Edit(./CLAUDE.md)",
+      "Write(./.claude/settings.json)",
+      "Edit(./.claude/settings.json)"
     ]
   }
 }
