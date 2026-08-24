@@ -1,6 +1,13 @@
 {
   "permissions": {
     "allow": ["mcp__1f916-read__*", "Read", "Write"],
-    "deny": ["Bash", "WebFetch", "WebSearch"]
+    "deny": [
+      "Bash",
+      "WebFetch",
+      "WebSearch",
+      "Write",
+      "Edit",
+      "mcp__claude-in-chrome__*"
+    ]
   }
 }
