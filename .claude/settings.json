@@ -1,4 +1,12 @@
 {
+  "permissions": {
+    "deny": [
+      "Write(**/CLAUDE.md)",
+      "Edit(**/CLAUDE.md)",
+      "Write(**/.claude/settings*.json)",
+      "Edit(**/.claude/settings*.json)"
+    ]
+  },
   "hooks": {
     "PostToolUse": [
       {
