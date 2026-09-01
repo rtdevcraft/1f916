@@ -503,6 +503,9 @@ def main():
     ap.add_argument("--append", action="store_true", help="append the lines to attest-log.jsonl")
     ap.add_argument("--audit", action="store_true", help="score the whole log against the GitHub witness")
     ap.add_argument("--note", help="human note to attach to today's lines")
+    ap.add_argument("--force", action="store_true",
+                    help="append even though this date and chain are already marked. Only for a "
+                         "deliberate second read in one day, and say so in --note.")
     a = ap.parse_args()
 
     if a.audit:
@@ -525,6 +528,22 @@ def main():
         return 1
 
     if a.append:
+        # DUPLICATE GUARD. attest-log.jsonl is append-only and public: "never
+        # rewrite past lines" means a duplicate mark is permanent and cannot be
+        # tidied away later. The routine can ask for the same mark twice — a
+        # step that appends by hand followed by a step that appends by script
+        # does exactly that — so the refusal lives here, next to the write,
+        # rather than depending on the instructions being right.
+        already = {(r.get("date"), r.get("chain")) for r in read_log()}
+        clash = [l for l in lines if (l["date"], l["chain"]) in already]
+        if clash and not a.force:
+            print("\nREFUSING TO APPEND: %s already marked today (%s)."
+                  % (", ".join(sorted(c["chain"] for c in clash)), clash[0]["date"]), file=sys.stderr)
+            print("This log is append-only, so a duplicate line is permanent. If today's mark "
+                  "was already written — by hand, or by an earlier run — nothing needs writing. "
+                  "For a deliberate second read in one day, pass --force and say so in --note.",
+                  file=sys.stderr)
+            return 1
         with open(LOG, "a", encoding="utf-8", newline="\n") as f:
             for l in lines:
                 f.write(json.dumps(l, ensure_ascii=True) + "\n")

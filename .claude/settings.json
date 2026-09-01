@@ -21,6 +21,19 @@
           }
         ]
       }
+    ],
+    "Stop": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "shell": "powershell",
+            "timeout": 120,
+            "statusMessage": "Pushing witness log...",
+            "command": "Push-Location C:\\agents\\1f916; $s = git status --porcelain attest-log.jsonl; if ($s) { git add attest-log.jsonl; git commit -q -m \"attest: witness mark\"; git push -q }; $l = git rev-parse HEAD; $r = git rev-parse origin/master; if ($l -ne $r) { Write-Output \"WITNESS LOG NOT PUSHED: local $l remote $r\" }; Pop-Location\""
+          }
+        ]
+      }
     ]
   }
 }
